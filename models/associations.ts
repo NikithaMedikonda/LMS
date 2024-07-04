@@ -1,4 +1,3 @@
-
 import {Authors} from './authors';
 import {Books} from './books';
 import {Loans} from './loans';
@@ -26,4 +25,4 @@ export {
     Loans,
     Members,
     Reservations
-  };
+};
