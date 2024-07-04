@@ -1,4 +1,4 @@
-import sequelize from '../database';
+
 import {Authors} from './authors';
 import {Books} from './books';
 import {Loans} from './loans';
@@ -21,7 +21,6 @@ Books.hasMany(Reservations, { foreignKey: 'id' });
 Reservations.belongsTo(Books, { foreignKey: 'id' });
 
 export {
-    sequelize,
     Authors,
     Books,
     Loans,
