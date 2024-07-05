@@ -4,7 +4,9 @@ import {Loans} from './loans';
 import {Members} from './members';
 import {Reservations} from './reservations';
 
-Authors.hasMany(Books, { foreignKey: 'id' });
+async function getAssociation() {
+    
+Authors.hasMany(Books, { foreignKey: 'authorId' });
 Books.belongsTo(Authors, { foreignKey: 'id' });
 
 Members.hasMany(Loans, { foreignKey: 'id' });
@@ -18,11 +20,7 @@ Reservations.belongsTo(Members, { foreignKey: 'id' });
 
 Books.hasMany(Reservations, { foreignKey: 'id' });
 Reservations.belongsTo(Books, { foreignKey: 'id' });
+}
 
-export {
-    Authors,
-    Books,
-    Loans,
-    Members,
-    Reservations
-};
+
+export {getAssociation};
