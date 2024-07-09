@@ -1,6 +1,7 @@
 import express from 'express';
 const loanRouter = express.Router();
 import {Loans} from '../models/loans';
+import { bookDueDate } from '../Queries/bookDueDate';
 
 // Get all loans
 loanRouter.get('/', async (req, res) => {
@@ -63,5 +64,11 @@ loanRouter.delete('/:id', async (req, res) => {
         res.status(500).json({message: err.message});
     }
 });
+
+loanRouter.get('/loanDueDate/:id', async (req,res) => {
+    const data= await bookDueDate(req.params.id);
+    res.send(data);
+    //res.json(data);
+})
 
 export default loanRouter;

@@ -1,6 +1,7 @@
 import express from 'express';
 const bookRouter = express.Router();
 import {Books} from '../models/books';
+import { bookAuthor } from '../Queries/bookAuthor';
 
 // Get all books
 bookRouter.get('/', async (req, res) => {
@@ -39,7 +40,7 @@ bookRouter.post('/', async (req, res) => {
 // Update an book
 bookRouter.put('/:id', async (req, res) => {
     try {
-        const [updated] = await Books.update(req.body, {where: {id: req.params.id}});
+        const [updated] = await Books.update(req.body, {where: {id: parseInt(req.params.id)}});
         if (updated) {
             const updatedbook = await Books.findByPk(req.params.id);
             res.json(updatedbook);
@@ -64,4 +65,9 @@ bookRouter.delete('/:id', async (req, res) => {
     }
 });
 
+bookRouter.get('/bookAuthor/:name', async (req,res) => {
+    const data= await bookAuthor(req.params.name);
+    res.send(data);
+    //res.json(data);
+})
 export default bookRouter;

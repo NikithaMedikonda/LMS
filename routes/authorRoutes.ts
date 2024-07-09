@@ -1,6 +1,7 @@
 import express from 'express';
 const authorRouter = express.Router();
 import {Authors} from '../models/authors';
+import { authorBooks } from '../Queries/authorBooks';
 
 // Get all authors
 authorRouter.get('/', async (req, res) => {
@@ -63,5 +64,11 @@ authorRouter.delete('/:id', async (req, res) => {
         res.status(500).json({message: err.message});
     }
 });
+
+authorRouter.get('/authorBooks/:name', async (req,res) => {
+    const data= await authorBooks(req.params.name);
+    res.send(data);
+    //res.json(data);
+})
 
 export default authorRouter;

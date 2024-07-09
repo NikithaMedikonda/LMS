@@ -7,8 +7,12 @@ import {createLoan, getAllLoans, getLoan, updateLoan, deleteLoan} from "./crud/l
 import {createMember, getAllMembers, getMember, updateMember, deleteMember} from "./crud/memberCrud"
 import {createReservation, getAllReservations, getReservations, updateReservation, deleteReservation} from "./crud/reservationCrud"
 import {getAssociation} from './models/associations'
+import { authorBooks } from './Queries/authorBooks';
+import { bookAuthor } from './Queries/bookAuthor';
+import {bookDueDate} from './Queries/bookDueDate'
 
 const app= express()
+app.use(express.json())
 import routes from './routes/allRoutes'
 app.use('/',routes);
 
@@ -91,7 +95,12 @@ const main = async() => {
         // await getReservations(1);
         await getAllReservations();
         // await updateReservation(1,{ member_id: 5});
-        // await deleteReservation(2);        
+        // await deleteReservation(2);    
+        
+        // await authorBooks('Paulo Coelho');
+        // await bookAuthor('Half Girlfriend');
+        // await bookDueDate(2);
+
     }
     catch(error){
         console.log("Error Creating or Syncing",error)
