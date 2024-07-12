@@ -1,7 +1,10 @@
 import express from 'express';
 const bookRouter = express.Router();
 import {Books} from '../models/books';
+import { Loans } from '../models/loans';
+import { Members } from '../models/members';
 import { bookAuthor } from '../Queries/bookAuthor';
+import sequelize from '../database';
 
 // Get all books
 bookRouter.get('/', async (req, res) => {
@@ -27,7 +30,7 @@ bookRouter.get('/:id', async (req, res) => {
     }
 });
 
-// Create a new book
+//Create a new book
 bookRouter.post('/', async (req, res) => {
     try {
         const book = await Books.create(req.body);
@@ -70,4 +73,21 @@ bookRouter.get('/bookAuthor/:name', async (req,res) => {
     res.send(data);
     //res.json(data);
 })
+
+bookRouter.post('/', async (req, res) => {
+    const t = await sequelize.transaction();
+    try {
+        const book = await Books.create(req.body,{
+            transaction:t
+        });
+        t.commit();
+        console.log('commit');
+        res.json(book);
+    } catch (err:any) {
+        t.rollback();
+        console.log('rollback');
+        res.status(400).json({message: err.message});
+    }
+});
+
 export default bookRouter;

@@ -26,5 +26,11 @@ export const Members = sequelize.define('Members', {
 },{
     timestamps:false,
     tableName: 'Members'
+    ,
+    indexes: [
+        {
+            fields: ['email']
+        }
+    ]
 });
 

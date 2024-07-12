@@ -31,6 +31,13 @@ export const Books = sequelize.define('Books', {
     }
 },{
     timestamps: false,
-    tableName:'Books'
+     tableName:'Books'
+    ,
+    indexes: [
+        {
+            name: 'books_title_isbn_index',
+        fields: ['title','isbn']
+        }    
+    ]
 });
 

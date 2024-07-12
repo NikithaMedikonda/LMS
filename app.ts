@@ -32,23 +32,23 @@ const main = async() => {
     try{
         getAssociation();
 
-        await sequelize.sync({force:true});
+        await sequelize.sync({alter:true});
         console.log("Sync Succesfully");
 
-        await insertAuthorsData();
-        console.log("Authors Insertion is Succesful");
+        // await insertAuthorsData();
+        // console.log("Authors Insertion is Succesful");
     
-        await insertBooksData();
-        console.log("Books Insertion is Succesful");
+        // await insertBooksData();
+        // console.log("Books Insertion is Succesful");
         
-        await insertMembersData();
-        console.log("Members Insertion is Succesful");
+        // await insertMembersData();
+        // console.log("Members Insertion is Succesful");
         
-        await insertLoansData();
-        console.log("Loans Insertion is Succesful");
+        // await insertLoansData();
+        // console.log("Loans Insertion is Succesful");
         
-        await insertReservationData();
-        console.log("Reservation Insertion is Succesful");
+        // await insertReservationData();
+        // console.log("Reservation Insertion is Succesful");
         
         //authorCRUD
         // await createAuthor('Khaled Hosseini', 1965, 'Afghan-American');
@@ -101,10 +101,37 @@ const main = async() => {
         // await bookAuthor('Half Girlfriend');
         // await bookDueDate(2);
 
+        const index = await Books.findOne({ where: { title: 'Half Girlfriend' } });
+        if (index)
+        {console.table(index.toJSON())}
+
+        // await sequelize.query('ANALYZE "Books";');
+
+        await sequelize.query('SET enable_seqscan = off;');
+    
+        const [results] = await sequelize.query('EXPLAIN SELECT * FROM "Books" WHERE title = \'Half Girlfriend\';');
+        console.log(results);
+
+        //await sequelize.query('SET enable_seqscan = on;');
+
+        const index1 = await Loans.findAll({where: {member_id: 1}})
+        if (index1)
+        {
+            console.table(index1.map((loan:any)=>loan.toJSON()))
+        }    
+        
+        const [results1] = await sequelize.query("Explain select * from \"Loans\" WHERE member_id = 1;");
+        console.log(results1)
+
     }
     catch(error){
         console.log("Error Creating or Syncing",error)
     }
+//     finally {
+//         await sequelize.close();
+//         console.log('Connection closed.');
+//     }
+// }
 }
 
 main();

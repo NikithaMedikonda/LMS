@@ -36,5 +36,11 @@ export const Loans = sequelize.define('Loans', {
 },{
     timestamps:false,
     tableName:'Loans'
+    ,
+    indexes: [
+        {
+            fields: ['member_id']
+        }
+    ]
 });
 

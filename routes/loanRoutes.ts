@@ -2,6 +2,7 @@ import express from 'express';
 const loanRouter = express.Router();
 import {Loans} from '../models/loans';
 import { bookDueDate } from '../Queries/bookDueDate';
+import { loanCreate } from '../Queries/loanCreate';
 
 // Get all loans
 loanRouter.get('/', async (req, res) => {
@@ -30,7 +31,7 @@ loanRouter.get('/:id', async (req, res) => {
 // Create a new loan
 loanRouter.post('/', async (req, res) => {
     try {
-        const loan = await Loans.create(req.body);
+        const loan = await loanCreate(req.body);
         res.json(loan);
     } catch (err:any) {
         res.status(400).json({message: err.message});
